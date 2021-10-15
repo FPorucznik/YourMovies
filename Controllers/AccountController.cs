@@ -79,11 +79,11 @@ namespace YourMovies.Controllers
             return View(user);
         }
 
-        public async Task<IAsyncDisposable> Logout()
+        public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
 
-            return (IAsyncDisposable)RedirectToAction("Login");
+            return RedirectToAction("Login");
         }
 
         public IActionResult Index()
