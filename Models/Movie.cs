@@ -10,6 +10,7 @@ namespace YourMovies.Models
     {
         [Key]
         public int Id { get; set; }
+        [DataType(DataType.ImageUrl)]
         public string ImageUrl { get; set; }
         public string Title { get; set; }
         [Display(Name ="Release Year")]
