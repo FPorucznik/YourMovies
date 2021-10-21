@@ -19,5 +19,7 @@ namespace YourMovies.Models
         public string Director { get; set; }
         public string Genre { get; set; }
 
+        public ICollection<Favourite> Favourites { get; set; }
+
     }
 }
