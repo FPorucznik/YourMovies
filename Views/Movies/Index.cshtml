@@ -1,7 +1,34 @@
-﻿@{
+﻿@model IEnumerable<Movie>
+
+@{
     ViewData["Title"] = "Your Movies";
 }
 
 <div class="text-center">
     <h1 class="display-4">Movies table</h1>
 </div>
+
+@if(Model.Count() > 0)
+{
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Release Year</th>
+            <th scope="col">Genre</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <th scope="row">@movie.Id</th>
+                <td>@movie.Title</td>
+                <td>@movie.ReleaseYear</td>
+                <td>@movie.Genre</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
