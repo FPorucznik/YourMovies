@@ -24,7 +24,7 @@ namespace YourMovies.Data
         {
             builder.Entity<Movie>().HasData(new Movie { Id=1, ImageUrl = "https://upload.wikimedia.org/wikipedia/en/5/5a/Pirates_AWE_Poster.jpg", Title = "Pirates of the Caribbean: At world's end", ReleaseYear = 2007, Director = "Gore Verbinski", Genre = "Adventure" });
             builder.Entity<Movie>().HasData(new Movie { Id=2, ImageUrl = "https://upload.wikimedia.org/wikipedia/en/b/b9/Shrek_2_poster.jpg", Title = "Shrek 2", ReleaseYear = 2004, Director = "Andrew Adamson", Genre = "Animated/Adventure/Comedy" });
-            builder.Entity<Movie>().HasData(new Movie { Id=3, ImageUrl = "https://upload.wikimedia.org/wikipedia/en/b/b9/Shrek_2_poster.jpg", Title = "Titanic", ReleaseYear = 1997, Director = "James Cameron", Genre = "Romance/Drama" });
+            builder.Entity<Movie>().HasData(new Movie { Id=3, ImageUrl = "https://upload.wikimedia.org/wikipedia/en/1/19/Titanic_%28Official_Film_Poster%29.png", Title = "Titanic", ReleaseYear = 1997, Director = "James Cameron", Genre = "Romance/Drama" });
 
             base.OnModelCreating(builder);
         }
