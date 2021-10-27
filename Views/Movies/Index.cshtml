@@ -34,7 +34,9 @@
                 <td>@movie.Genre</td>
                 @if (User.Identity.IsAuthenticated) 
                 { 
-                    <td><button class="btn btn-primary">Favourite</button></td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Movies" asp-action="AddFavourite" asp-route-Id="@movie.Id">Favourite</a>
+                    </td>
                 }
             </tr>
         }

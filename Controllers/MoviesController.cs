@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,32 @@ namespace YourMovies.Controllers
         {
             _db = db;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Movie> moviesList = _db.Movies;
-            return View(moviesList);
+            return View(await _db.Movies.ToListAsync());
         }
 
         [Authorize]
         public IActionResult Favourites()
         {
             return View();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task <IActionResult> AddFavourite(int? id)
+        {
+            if(id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = await _db.Movies.FindAsync(id);
+            if(obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
         }
     }
 }
