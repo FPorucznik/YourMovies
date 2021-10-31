@@ -20,11 +20,13 @@
         </tr>
     </table>
     <div class="row">
-        <div class="col">
-            <a class="btn btn-primary" asp-controller="Movies" asp-action="AddFavourite">Add</a>
-        </div>
-        <div class="col">
-            <a class="btn btn-danger" asp-controller="Movies" asp-action="Index">Cancel</a>
-        </div>
+        <form method="post" asp-action="AddFavourite" asp-controller="Movies">
+            <div class="col">
+                <input type="submit" class="btn btn-primary" value="Add to favourites">
+            </div>
+            <div class="col">
+                <a class="btn btn-danger" asp-controller="Movies" asp-action="Index">Cancel</a>
+            </div>
+        </form>
     </div>
 </div>

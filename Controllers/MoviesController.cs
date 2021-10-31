@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using YourMovies.Data;
 using YourMovies.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace YourMovies.Controllers
 {
@@ -14,7 +16,7 @@ namespace YourMovies.Controllers
     {
         private readonly ApplicationDbContext _db;
 
-        public MoviesController(ApplicationDbContext db)
+        public MoviesController(ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
             _db = db;
         }
@@ -25,9 +27,10 @@ namespace YourMovies.Controllers
         }
 
         [Authorize]
-        public IActionResult Favourites()
+        public async Task <IActionResult> Favourites()
         {
-            return View();
+            var favourites = _db.Favourites.Include(f => f.Movie);
+            return View(await favourites.ToListAsync());
         }
 
         [Authorize]
@@ -44,6 +47,20 @@ namespace YourMovies.Controllers
                 return NotFound();
             }
             return View(obj);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddFavourite(Movie movie)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var favourite = new Favourite { UserId = userId, MovieId = movie.Id };
+
+            _db.Favourites.Add(favourite);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
     }
 }

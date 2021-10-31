@@ -1,7 +1,45 @@
-﻿@{
+﻿@model IEnumerable<Favourite>
+@using Microsoft.AspNetCore.Identity;
+@using System.Security.Claims;
+
+@{
     ViewData["Title"] = "Your Movies";
 }
 
 <div class="text-center">
     <h1 class="display-4">Your favourite movies</h1>
 </div>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Poster</th>
+                <th scope="col">Title</th>
+                <th scope="col">Release Year</th>
+                <th scope="col">Director</th>
+                <th scope="col">Genre</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var favourite in Model)
+            {
+                @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == favourite.UserId)
+                {
+                    <tr>
+                        <td><img src="@Url.Content(favourite.Movie.ImageUrl)" width="70" height="100" /></td>
+                        <td>@favourite.Movie.Title</td>
+                        <td>@favourite.Movie.ReleaseYear</td>
+                        <td>@favourite.Movie.Director</td>
+                        <td>@favourite.Movie.Genre</td>
+                        <td>
+                            <a class="btn btn-danger" asp-controller="Movies" asp-action="RemoveFavourite">Remove</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
