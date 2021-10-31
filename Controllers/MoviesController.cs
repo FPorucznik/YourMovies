@@ -16,7 +16,7 @@ namespace YourMovies.Controllers
     {
         private readonly ApplicationDbContext _db;
 
-        public MoviesController(ApplicationDbContext db, UserManager<IdentityUser> userManager)
+        public MoviesController(ApplicationDbContext db)
         {
             _db = db;
         }
