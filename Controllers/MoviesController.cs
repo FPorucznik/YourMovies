@@ -23,7 +23,8 @@ namespace YourMovies.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _db.Movies.ToListAsync());
+            var movies = _db.Movies.Include(m => m.Favourites);
+            return View(await movies.ToListAsync());
         }
 
         [Authorize]

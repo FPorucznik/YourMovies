@@ -1,30 +1,31 @@
 ﻿@model IEnumerable<Movie>
+@using System.Security.Claims;
 
 @{
     ViewData["Title"] = "Your Movies";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Movies table</h1>
+    <h1 class="display-4">All movies</h1>
 </div>
 
-@if(Model.Count() > 0)
+@if (Model.Count() > 0)
 {
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Poster</th>
-            <th scope="col">Title</th>
-            <th scope="col">Release Year</th>
-            <th scope="col">Director</th>
-            <th scope="col">Genre</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var movie in Model)
-        {
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Poster</th>
+                <th scope="col">Title</th>
+                <th scope="col">Release Year</th>
+                <th scope="col">Director</th>
+                <th scope="col">Genre</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
             <tr>
                 <th scope="row">@movie.Id</th>
                 <td><img src="@Url.Content(movie.ImageUrl)" width="70" height="100" /></td>
@@ -32,14 +33,23 @@
                 <td>@movie.ReleaseYear</td>
                 <td>@movie.Director</td>
                 <td>@movie.Genre</td>
-                @if (User.Identity.IsAuthenticated) 
-                { 
-                    <td>
-                        <a class="btn btn-primary" asp-controller="Movies" asp-action="AddFavourite" asp-route-Id="@movie.Id">Favourite</a>
-                    </td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (movie.Favourites.Any(x => x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                    {
+                        <td align="center">
+                            <img src="http://pngimg.com/uploads/star/star_PNG41474.png" width="30" height="30" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="btn btn-primary" asp-controller="Movies" asp-action="AddFavourite" asp-route-Id="@movie.Id">Favourite</a>
+                        </td>
+                    }
                 }
             </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
 }
