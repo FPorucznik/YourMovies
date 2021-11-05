@@ -63,5 +63,32 @@ namespace YourMovies.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> RemoveFavourite(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = await _db.Favourites.Include(f => f.Movie).SingleOrDefaultAsync(f => f.Id == id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveFavourite(Favourite favourite)
+        {
+            _db.Favourites.Remove(favourite);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Favourites");
+        }
     }
 }

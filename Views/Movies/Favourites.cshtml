@@ -35,7 +35,7 @@
                         <td>@favourite.Movie.Director</td>
                         <td>@favourite.Movie.Genre</td>
                         <td>
-                            <a class="btn btn-danger" asp-controller="Movies" asp-action="RemoveFavourite">Remove</a>
+                            <a class="btn btn-danger" asp-controller="Movies" asp-action="RemoveFavourite" asp-route-Id="@favourite.Id">Remove</a>
                         </td>
                     </tr>
                 }

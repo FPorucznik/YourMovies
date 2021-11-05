@@ -1,0 +1,32 @@
+﻿@model Favourite
+
+@{
+    ViewData["Title"] = "Your Movies";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Remove movie from favourites ?</h1>
+</div>
+<div class="text-left">
+    <table class="table">
+        <tr>
+            <td><img src="@Url.Content(Model.Movie.ImageUrl)" /></td>
+            <td rowspan="4">
+                <p>@Html.DisplayNameFor(modelItem => Model.Movie.Title): @Model.Movie.Title</p>
+                <p>@Html.DisplayNameFor(modelItem => Model.Movie.ReleaseYear): @Model.Movie.ReleaseYear</p>
+                <p>@Html.DisplayNameFor(modelItem => Model.Movie.Director): @Model.Movie.Director</p>
+                <p>@Html.DisplayNameFor(modelItem => Model.Movie.Genre): @Model.Movie.Genre</p>
+            </td>
+        </tr>
+    </table>
+    <div class="row">
+        <form method="post" asp-action="RemoveFavourite" asp-controller="Movies">
+            <div class="col">
+                <input type="submit" class="btn btn-primary" value="Remove from favourites">
+            </div>
+            <div class="col">
+                <a class="btn btn-danger" asp-controller="Movies" asp-action="Favourites">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
