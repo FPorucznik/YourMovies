@@ -14,7 +14,7 @@
 {
     <table class="table">
         <thead class="thead-dark">
-            <tr>
+            <tr class="text-center">
                 <th scope="col">Poster</th>
                 <th scope="col">Title</th>
                 <th scope="col">Release Year</th>
@@ -28,13 +28,13 @@
             {
                 @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == favourite.UserId)
                 {
-                    <tr>
-                        <td><img src="@Url.Content(favourite.Movie.ImageUrl)" width="70" height="100" /></td>
-                        <td>@favourite.Movie.Title</td>
-                        <td>@favourite.Movie.ReleaseYear</td>
-                        <td>@favourite.Movie.Director</td>
-                        <td>@favourite.Movie.Genre</td>
-                        <td>
+                    <tr class="text-center">
+                        <td class="align-middle"><img src="@Url.Content(favourite.Movie.ImageUrl)" width="70" height="100" /></td>
+                        <td class=" font-weight-bold align-middle">@favourite.Movie.Title</td>
+                        <td class="align-middle">@favourite.Movie.ReleaseYear</td>
+                        <td class="align-middle">@favourite.Movie.Director</td>
+                        <td class="align-middle">@favourite.Movie.Genre</td>
+                        <td class="align-middle">
                             <a class="btn btn-danger" asp-controller="Movies" asp-action="RemoveFavourite" asp-route-Id="@favourite.Id">Remove</a>
                         </td>
                     </tr>
