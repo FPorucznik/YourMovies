@@ -20,6 +20,7 @@ namespace YourMovies.Controllers
             _signInManager = signInManager;
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
@@ -62,7 +63,6 @@ namespace YourMovies.Controllers
             return View();
         }
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel user)
         {
             if (ModelState.IsValid)
@@ -84,6 +84,12 @@ namespace YourMovies.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Login");
+        }
+
+        [Authorize]
+        public IActionResult Details()
+        {
+            return View();
         }
 
         public IActionResult Index()

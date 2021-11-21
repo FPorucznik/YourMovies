@@ -28,13 +28,15 @@ namespace YourMovies
         {
             services.AddControllersWithViews();
 
+            services.AddTransient<DbContextDataSeed>();
+
             services.AddDbContext<ApplicationDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("default")));
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbContextDataSeed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -46,6 +48,7 @@ namespace YourMovies
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            _ = seeder.SeedAdminUser();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

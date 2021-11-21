@@ -7,25 +7,27 @@
 <div class="text-center">
     <h1 class="display-4">Add movie to favourites ?</h1>
 </div>
-<div class="text-left">
+<div class="container">
     <table class="table">
         <tr>
-            <td><img src="@Url.Content(Model.ImageUrl)" /></td>
-            <td rowspan="4">
-                <p>@Html.DisplayNameFor(modelItem => Model.Title): @Model.Title</p>
-                <p>@Html.DisplayNameFor(modelItem => Model.ReleaseYear): @Model.ReleaseYear</p>
-                <p>@Html.DisplayNameFor(modelItem => Model.Director): @Model.Director</p>
-                <p>@Html.DisplayNameFor(modelItem => Model.Genre): @Model.Genre</p>
+            <td class="align-middle text-center"><img src="@Url.Content(Model.ImageUrl)" /></td>
+            <td class="align-middle" rowspan="4">
+                <p><b>@Html.DisplayNameFor(modelItem => Model.Title):</b> @Model.Title</p>
+                <p><b>@Html.DisplayNameFor(modelItem => Model.ReleaseYear):</b> @Model.ReleaseYear</p>
+                <p><b>@Html.DisplayNameFor(modelItem => Model.Director):</b> @Model.Director</p>
+                <p><b>@Html.DisplayNameFor(modelItem => Model.Genre):</b> @Model.Genre</p>
             </td>
         </tr>
     </table>
-    <div class="row">
+    <div class="row justify-content-center">
         <form method="post" asp-action="AddFavourite" asp-controller="Movies">
-            <div class="col">
-                <input type="submit" class="btn btn-primary" value="Add to favourites">
-            </div>
-            <div class="col">
-                <a class="btn btn-danger" asp-controller="Movies" asp-action="Index">Cancel</a>
+            <div class="row">
+                <div class="col">
+                    <input type="submit" class="btn btn-primary" value="Add to favourites">
+                </div>
+                <div class="col">
+                    <a class="btn btn-danger" asp-controller="Movies" asp-action="Index">Cancel</a>
+                </div>
             </div>
         </form>
     </div>
