@@ -87,7 +87,7 @@ namespace YourMovies.Controllers
         }
 
         [Authorize]
-        public IActionResult Details()
+        public IActionResult Details(int? id)
         {
             return View();
         }
