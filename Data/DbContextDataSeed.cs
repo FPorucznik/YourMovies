@@ -21,7 +21,7 @@ namespace YourMovies.Data
 
         public async Task SeedAdminUser()
         {
-            if(!_db.Users.Any(u => u.UserName == "admin@admin.com"))
+            if(!_db.Users.Any(u => u.Email == "admin@admin.com"))
             {
                 var user = new IdentityUser
                 {
@@ -33,16 +33,27 @@ namespace YourMovies.Data
                     SecurityStamp = Guid.NewGuid().ToString()
                 };
 
+                IdentityRole role = new IdentityRole
+                {
+                    Name = "admin",
+                    NormalizedName = "ADMIN"
+                };
+
                 if(!_db.Roles.Any(r => r.Name == "admin"))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole { Name = "admin", NormalizedName = "ADMIN" });
+                    await _roleManager.CreateAsync(role);
                 }
 
                 var password = new PasswordHasher<IdentityUser>();
                 var hashedPassword = password.HashPassword(user, "admin123");
                 user.PasswordHash = hashedPassword;
-                await _userManager.CreateAsync(user);
-                await _userManager.AddToRoleAsync(user, "admin");
+                var result = await _userManager.CreateAsync(user);
+
+                var createdUser = await _db.Users.FindAsync(user.Id);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(createdUser, role.Name);
+                }
             }
             await _db.SaveChangesAsync();
         }

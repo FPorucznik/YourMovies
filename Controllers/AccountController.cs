@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using YourMovies.Data;
 using YourMovies.ViewModels;
 
 namespace YourMovies.Controllers
@@ -13,11 +15,13 @@ namespace YourMovies.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ApplicationDbContext _db;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _db = db;
         }
 
         [HttpGet]
@@ -87,9 +91,30 @@ namespace YourMovies.Controllers
         }
 
         [Authorize]
-        public IActionResult Details(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
         {
-            return View();
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var roles = await _userManager.GetRolesAsync(user);
+            var favNum = _db.Favourites.Count(f => f.UserId == id);
+
+            DetailsViewModel accountDetails = new DetailsViewModel
+            {
+                Email = email,
+                UserName = userName,
+                AccountType = roles.Contains("admin") ? "Administrator" : "Standard user",
+                FavouriteNumber = favNum
+            };
+
+            return View(accountDetails);
         }
 
         public IActionResult Index()
