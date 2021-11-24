@@ -108,6 +108,7 @@ namespace YourMovies.Controllers
 
             DetailsViewModel accountDetails = new DetailsViewModel
             {
+                UserId = id,
                 Email = email,
                 UserName = userName,
                 AccountType = roles.Contains("admin") ? "Administrator" : "Standard user",
@@ -115,6 +116,21 @@ namespace YourMovies.Controllers
             };
 
             return View(accountDetails);
+        }
+
+        [HttpPost]
+        public void Details(DetailsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _db.Users.FirstOrDefault(u => u.Id == model.UserId);
+
+                /* tbd
+                if(user != null)
+                {
+                    
+                }*/
+            }
         }
 
         public IActionResult Index()
