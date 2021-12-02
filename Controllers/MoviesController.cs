@@ -136,5 +136,35 @@ namespace YourMovies.Controllers
             }
             return View(movie);
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        public async Task<IActionResult> EditMovie(int? id)
+        {
+            if(id == 0 || id == null)
+            {
+                return NotFound();
+            }
+            var obj = await _db.Movies.SingleOrDefaultAsync(m => m.Id == id);
+            if(obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public async Task<IActionResult> EditMovie(Movie movie)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Movies.Update(movie);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", "Movies");
+            }
+            return View(movie);
+        }
     }
 }
