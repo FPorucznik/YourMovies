@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,13 +103,12 @@ namespace YourMovies.Controllers
             var user = await _userManager.FindByIdAsync(id);
 
             var email = User.FindFirstValue(ClaimTypes.Email);
-            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var userName = user.UserName;
             var roles = await _userManager.GetRolesAsync(user);
             var favNum = _db.Favourites.Count(f => f.UserId == id);
 
             DetailsViewModel accountDetails = new DetailsViewModel
             {
-                UserId = id,
                 Email = email,
                 UserName = userName,
                 AccountType = roles.Contains("admin") ? "Administrator" : "Standard user",
@@ -116,21 +116,6 @@ namespace YourMovies.Controllers
             };
 
             return View(accountDetails);
-        }
-
-        [HttpPost]
-        public void Details(DetailsViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = _db.Users.FirstOrDefault(u => u.Id == model.UserId);
-
-                /* tbd
-                if(user != null)
-                {
-                    
-                }*/
-            }
         }
 
         public IActionResult Index()

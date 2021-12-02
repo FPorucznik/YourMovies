@@ -8,13 +8,9 @@ namespace YourMovies.ViewModels
 {
     public class DetailsViewModel
     {
-        public string UserId { get; set; }
-
-        [Required]
-        [EmailAddress(ErrorMessage ="Enter correct email")]
+        [Display(Name = "Email:")]
         public string Email { get; set; }
 
-        [Required]
         public string UserName { get; set; }
 
         [Display(Name = "Account type:")]
