@@ -13,7 +13,7 @@
     if (User.IsInRole("admin"))
     {
         <div class="text-center mb-2">
-            <button class="btn btn-primary">Add movie</button>
+            <a class="btn btn-primary" asp-controller="Movies" asp-action="AddMovie">Add movie</a>
         </div>
     }
 }
@@ -22,7 +22,7 @@
 {
     <table class="table">
         <thead class="thead-dark">
-            <tr class="text-center">
+            <tr class="text-center w-100">
                 <th scope="col">Poster</th>
                 <th scope="col">Title</th>
                 <th scope="col">Release Year</th>

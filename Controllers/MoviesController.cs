@@ -99,12 +99,42 @@ namespace YourMovies.Controllers
             {
                 return NotFound();
             }
-            var obj = await _db.Movies.Include(f => f.Favourites).SingleOrDefaultAsync(m => m.Id == id);
+            var obj = await _db.Movies.SingleOrDefaultAsync(m => m.Id == id);
             if(obj == null)
             {
                 return NotFound();
             }
             return View(obj);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public async Task <IActionResult> DeleteMovie(Movie movie)
+        {
+            var obj = await _db.Movies.Include(f => f.Favourites).SingleOrDefaultAsync(m => m.Id == movie.Id);
+            _db.Remove(obj);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index", "Movies");
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        public IActionResult AddMovie()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public async Task <IActionResult> AddMovie(Movie movie)
+        {
+            if (ModelState.IsValid)
+            {
+                await _db.Movies.AddAsync(movie);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", "Movies");
+            }
+            return View(movie);
         }
     }
 }
