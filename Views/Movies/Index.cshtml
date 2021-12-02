@@ -8,13 +8,21 @@
 <div class="text-center">
     <h1 class="display-4">All movies</h1>
 </div>
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("admin"))
+    {
+        <div class="text-center mb-2">
+            <button class="btn btn-primary">Add movie</button>
+        </div>
+    }
+}
 
 @if (Model.Count() > 0)
 {
     <table class="table">
         <thead class="thead-dark">
             <tr class="text-center">
-                <th scope="col">Id</th>
                 <th scope="col">Poster</th>
                 <th scope="col">Title</th>
                 <th scope="col">Release Year</th>
@@ -27,7 +35,6 @@
             @foreach (var movie in Model)
             {
             <tr class="text-center">
-                <th class="align-middle" scope="row">@movie.Id</th>
                 <td class="align-middle"><img src="@Url.Content(movie.ImageUrl)" width="70" height="100" /></td>
                 <td class="font-weight-bold align-middle">@movie.Title</td>
                 <td class="align-middle">@movie.ReleaseYear</td>
@@ -38,7 +45,20 @@
                     @if (movie.Favourites.Any(x => x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
                     {
                         <td class="align-middle">
-                            <img src="http://pngimg.com/uploads/star/star_PNG41474.png" width="30" height="30" />
+                            <img src="http://pngimg.com/uploads/star/star_PNG41474.png" width="30" height="30" class="mb-1" />
+                            @if (User.IsInRole("admin"))
+                            {
+                                <a class="btn btn-success w-100 mb-1" asp-controller="Movies" asp-action="AddFavourite" asp-route-Id="@movie.Id">Edit</a>
+                                <a class="btn btn-danger w-100" asp-controller="Movies" asp-action="AddFavourite" asp-route-Id="@movie.Id">Delete</a>
+                            }
+                        </td>
+                    }
+                    else if (User.IsInRole("admin"))
+                    {
+                        <td class="align-middle">
+                            <a class="btn btn-primary w-100 mb-1" asp-controller="Movies" asp-action="AddFavourite" asp-route-Id="@movie.Id">Favourite</a>
+                            <a class="btn btn-success w-100 mb-1" asp-controller="Movies" asp-action="EditMovie" asp-route-Id="@movie.Id">Edit</a>
+                            <a class="btn btn-danger w-100" asp-controller="Movies" asp-action="DeleteMovie" asp-route-Id="@movie.Id">Delete</a>
                         </td>
                     }
                     else

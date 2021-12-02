@@ -90,5 +90,21 @@ namespace YourMovies.Controllers
 
             return RedirectToAction("Favourites");
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        public async Task <IActionResult> DeleteMovie(int? id)
+        {
+            if(id == 0 || id == null)
+            {
+                return NotFound();
+            }
+            var obj = await _db.Movies.Include(f => f.Favourites).SingleOrDefaultAsync(m => m.Id == id);
+            if(obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
     }
 }
