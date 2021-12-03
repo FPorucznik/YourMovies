@@ -17,6 +17,7 @@
 - ASP.NET Core MVC
 - Microsoft Identity
 - Entity Framework Core
+- SQL
 - Bootstrap
 - HTML 5
 
