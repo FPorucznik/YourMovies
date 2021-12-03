@@ -14,7 +14,7 @@
 
 - C#
 - .NET 5
-- ASP.NET Core MVC Web Application
+- ASP.NET Core MVC
 - Microsoft Identity
 - Entity Framework Core
 - Bootstrap
